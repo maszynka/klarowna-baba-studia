@@ -1,0 +1,2305 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biologia & Fizjologia — Materiały do nauki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #04080f;
+    --surface: #0a1220;
+    --surface2: #111c2e;
+    --border: #1e2d42;
+    --cyan: #00e8c8;
+    --cyan-dim: rgba(0,232,200,0.12);
+    --amber: #f0a500;
+    --amber-dim: rgba(240,165,0,0.12);
+    --rose: #f05478;
+    --rose-dim: rgba(240,84,120,0.12);
+    --violet: #9b72f0;
+    --violet-dim: rgba(155,114,240,0.12);
+    --green: #4ade80;
+    --text: #ccd6f6;
+    --text-muted: #5a7499;
+    --text-bright: #e8f4ff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Karla', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Neural background animation */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,232,200,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(155,114,240,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== LAYOUT ===== */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    grid-column: 1 / -1;
+    padding: 28px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    background: rgba(4,8,15,0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    letter-spacing: -0.02em;
+  }
+
+  header h1 span {
+    color: var(--cyan);
+  }
+
+  .header-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    margin-left: auto;
+    font-size: 0.72rem;
+    color: var(--cyan);
+    border: 1px solid rgba(0,232,200,0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ===== SIDEBAR ===== */
+  nav {
+    padding: 32px 0;
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 73px;
+    height: calc(100vh - 73px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .nav-section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0 24px;
+    margin-bottom: 8px;
+    margin-top: 24px;
+  }
+
+  .nav-section-label:first-child { margin-top: 0; }
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 24px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 400;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    line-height: 1.3;
+  }
+
+  nav a:hover {
+    color: var(--text-bright);
+    background: rgba(255,255,255,0.03);
+  }
+
+  nav a.active {
+    color: var(--cyan);
+    border-left-color: var(--cyan);
+    background: var(--cyan-dim);
+  }
+
+  nav a .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  /* ===== MAIN ===== */
+  main {
+    padding: 48px 56px;
+    max-width: 900px;
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    margin-bottom: 80px;
+    scroll-margin-top: 100px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .section-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .section-icon.cyan { background: var(--cyan-dim); }
+  .section-icon.amber { background: var(--amber-dim); }
+  .section-icon.rose { background: var(--rose-dim); }
+  .section-icon.violet { background: var(--violet-dim); }
+  .section-icon.green { background: rgba(74,222,128,0.1); }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .section-subtitle {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* ===== WYKŁAD BADGE ===== */
+  .wyklad-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: rgba(255,255,255,0.1); }
+
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 10px;
+  }
+
+  .card p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  /* ===== HIGHLIGHT BOX ===== */
+  .highlight {
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 16px 0;
+    font-size: 0.87rem;
+    line-height: 1.7;
+  }
+
+  .highlight.cyan { background: var(--cyan-dim); border-left: 3px solid var(--cyan); }
+  .highlight.amber { background: var(--amber-dim); border-left: 3px solid var(--amber); }
+  .highlight.rose { background: var(--rose-dim); border-left: 3px solid var(--rose); }
+  .highlight.violet { background: var(--violet-dim); border-left: 3px solid var(--violet); }
+  .highlight.green { background: rgba(74,222,128,0.08); border-left: 3px solid var(--green); }
+
+  .highlight strong {
+    color: var(--text-bright);
+    font-weight: 600;
+  }
+
+  /* ===== TERM ===== */
+  .term {
+    color: var(--cyan);
+    font-weight: 500;
+  }
+
+  .term-amber { color: var(--amber); font-weight: 500; }
+  .term-rose { color: var(--rose); font-weight: 500; }
+  .term-violet { color: var(--violet); font-weight: 500; }
+
+  /* ===== GRID ===== */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+
+  .mini-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .mini-card-num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    color: var(--cyan);
+    opacity: 0.4;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .mini-card-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 6px;
+  }
+
+  .mini-card p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ===== HIERARCHY VISUAL ===== */
+  .hierarchy {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 20px 0;
+  }
+
+  .hierarchy-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.15s;
+    cursor: default;
+  }
+
+  .hierarchy-item:hover {
+    border-color: var(--cyan);
+    background: var(--cyan-dim);
+  }
+
+  .hierarchy-num {
+    font-family: 'Fraunces', serif;
+    font-size: 0.8rem;
+    color: var(--cyan);
+    width: 20px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .hierarchy-name {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    min-width: 180px;
+  }
+
+  .hierarchy-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .hierarchy-arrow {
+    width: 24px;
+    height: 1px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  /* ===== POTENTIAL CHART ===== */
+  .potential-diagram {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+
+  .potential-diagram svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* ===== NEUROTRANSMITTERS TABLE ===== */
+  .nt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .nt-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    transition: all 0.2s;
+  }
+
+  .nt-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  .nt-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .nt-type {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+
+  .nt-desc {
+    font-size: 0.79rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .nt-disease {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* ===== FLASHCARD SECTION ===== */
+  .flashcards-container {
+    margin: 24px 0;
+  }
+
+  .flashcard-wrap {
+    perspective: 1000px;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+
+  .flashcard-inner {
+    position: relative;
+    height: 100px;
+    transform-style: preserve-3d;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 10px;
+  }
+
+  .flashcard-wrap.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flashcard-front,
+  .flashcard-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .flashcard-front {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--text-bright);
+  }
+
+  .flashcard-front::after {
+    content: 'kliknij →';
+    position: absolute;
+    right: 16px;
+    bottom: 12px;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    font-weight: 400;
+  }
+
+  .flashcard-back {
+    background: var(--surface);
+    border: 1px solid var(--cyan);
+    color: var(--text);
+    transform: rotateY(180deg);
+  }
+
+  /* ===== QUIZ ===== */
+  .quiz-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    margin: 24px 0;
+  }
+
+  .quiz-question {
+    display: none;
+  }
+
+  .quiz-question.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .quiz-q-num {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .quiz-q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: var(--text-bright);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .quiz-opt {
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.86rem;
+    text-align: left;
+    transition: all 0.15s;
+    font-family: 'Karla', sans-serif;
+  }
+
+  .quiz-opt:hover:not(:disabled) {
+    border-color: var(--cyan);
+    background: var(--cyan-dim);
+    color: var(--text-bright);
+  }
+
+  .quiz-opt.correct {
+    border-color: var(--green);
+    background: rgba(74,222,128,0.1);
+    color: var(--green);
+  }
+
+  .quiz-opt.wrong {
+    border-color: var(--rose);
+    background: var(--rose-dim);
+    color: var(--rose);
+  }
+
+  .quiz-feedback {
+    font-size: 0.84rem;
+    min-height: 24px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .quiz-nav {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 9px 22px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.84rem;
+    font-family: 'Karla', sans-serif;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+
+  .btn-primary {
+    background: var(--cyan);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover {
+    color: var(--text-bright);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .quiz-progress {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .quiz-score {
+    display: none;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .quiz-score.show { display: block; }
+
+  .score-num {
+    font-family: 'Fraunces', serif;
+    font-size: 4rem;
+    color: var(--cyan);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .score-label {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  /* ===== PROCESS FLOW ===== */
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 20px 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .flow-step {
+    flex: 1;
+    min-width: 110px;
+    text-align: center;
+  }
+
+  .flow-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 10px;
+    font-size: 0.79rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    line-height: 1.3;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flow-step:not(:last-child) .flow-box {
+    margin-right: -1px;
+    border-radius: 8px 0 0 8px;
+  }
+
+  .flow-connector {
+    display: flex;
+    align-items: center;
+    color: var(--cyan);
+    font-size: 1.1rem;
+    padding: 0 6px;
+    opacity: 0.5;
+  }
+
+  /* ===== TABLE ===== */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+    margin: 16px 0;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 10px 16px;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  .data-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(30,45,66,0.5);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(255,255,255,0.015); }
+
+  .data-table td:first-child {
+    font-weight: 600;
+    color: var(--text-bright);
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* ===== LIST ===== */
+  .styled-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 14px 0;
+  }
+
+  .styled-list li {
+    display: flex;
+    gap: 12px;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .styled-list li::before {
+    content: '▸';
+    color: var(--cyan);
+    flex-shrink: 0;
+    margin-top: 1px;
+    opacity: 0.7;
+  }
+
+  /* ===== HEADING IN CONTENT ===== */
+  .h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    margin: 28px 0 14px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .h3 {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 22px 0 10px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  /* ===== ACTION POTENTIAL SVG ===== */
+  .ap-container {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+
+  /* ===== SYNAPSE VISUAL ===== */
+  .synapse-visual {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    align-items: center;
+    text-align: center;
+  }
+
+  .synapse-side {
+    padding: 16px;
+  }
+
+  .synapse-side-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .synapse-side-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    color: var(--text-bright);
+    margin-bottom: 6px;
+  }
+
+  .synapse-side p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .synapse-gap {
+    padding: 20px 16px;
+    border-left: 1px dashed var(--border);
+    border-right: 1px dashed var(--border);
+    text-align: center;
+  }
+
+  .synapse-gap-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .synapse-gap-val {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    color: var(--amber);
+  }
+
+  .vesicles {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin: 8px 0;
+  }
+
+  .vesicle {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--amber);
+    opacity: 0.6;
+    animation: pulse-vesicle 2s ease-in-out infinite;
+  }
+
+  .vesicle:nth-child(2) { animation-delay: 0.4s; }
+  .vesicle:nth-child(3) { animation-delay: 0.8s; }
+
+  @keyframes pulse-vesicle {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.3); opacity: 1; }
+  }
+
+  /* ===== SCROLL INDICATOR ===== */
+  .scroll-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--cyan);
+    transition: width 0.1s;
+    z-index: 999;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ===== MUSCLE TABLE ===== */
+  .muscle-card {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 18px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: border-color 0.15s;
+  }
+
+  .muscle-card:hover { border-color: rgba(255,255,255,0.12); }
+
+  .muscle-emoji {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .muscle-content h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 5px;
+  }
+
+  .muscle-content p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    nav { display: none; }
+    main { padding: 32px 24px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .nt-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-indicator" id="scrollIndicator"></div>
+
+<div class="layout">
+  <!-- HEADER -->
+  <header>
+    <h1>Bio<span>&</span>Fizjo</h1>
+    <span class="header-sub">Materiały do nauki · Wykłady I–V</span>
+    <span class="header-badge">Pawłowski</span>
+  </header>
+
+  <!-- SIDEBAR NAV -->
+  <nav id="mainNav">
+    <div class="nav-section-label">Wykład I</div>
+    <a href="#hierarchia" class="active"><span class="dot"></span>Hierarchia organizacji</a>
+    <a href="#integracja"><span class="dot"></span>Integracja strukturalna</a>
+    <a href="#homeostaza"><span class="dot"></span>Homeostaza</a>
+    <a href="#metabolizm"><span class="dot"></span>Metabolizm</a>
+    <a href="#sprzezenia"><span class="dot"></span>Sprzężenia zwrotne</a>
+
+    <div class="nav-section-label">Wykład II</div>
+    <a href="#uklad-nerwowy"><span class="dot"></span>Układ nerwowy</a>
+    <a href="#neuron"><span class="dot"></span>Budowa neuronu</a>
+    <a href="#potencjal"><span class="dot"></span>Potencjał czynnościowy</a>
+    <a href="#synapsy"><span class="dot"></span>Synapsy</a>
+    <a href="#neuroprzek"><span class="dot"></span>Neuroprzekaźniki</a>
+    <a href="#komorki-glej"><span class="dot"></span>Komórki glejowe</a>
+
+    <div class="nav-section-label">Wykłady III–V</div>
+    <a href="#miesnie"><span class="dot"></span>Układ mięśniowy</a>
+    <a href="#skurcze"><span class="dot"></span>Typy skurczów</a>
+    <a href="#odruchy"><span class="dot"></span>Odruchy</a>
+
+    <div class="nav-section-label">Narzędzia</div>
+    <a href="#fiszki"><span class="dot"></span>Fiszki</a>
+    <a href="#quiz"><span class="dot"></span>Quiz</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 1: HIERARCHIA -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="hierarchia">
+      <div class="section-header">
+        <div class="section-icon cyan">🏛️</div>
+        <div>
+          <div class="section-title">Hierarchia organizacji ciała</div>
+          <div class="section-subtitle">Wykład I · Organizacja</div>
+        </div>
+      </div>
+
+      <div class="wyklad-badge">📖 Życie = 3×S: Samozachowanie · Samoodtwarzanie · Samoregulacja</div>
+
+      <p>Organizm ludzki zbudowany jest hierarchicznie — każdy wyższy poziom integruje i koordynuje działanie poziomów niższych. Zaburzenie na jednym poziomie odbija się echem na wszystkich innych.</p>
+
+      <div class="hierarchy">
+        <div class="hierarchy-item">
+          <span class="hierarchy-num">1</span>
+          <div class="hierarchy-arrow"></div>
+          <span class="hierarchy-name" style="color:var(--cyan)">Organizacja chemiczna</span>
+          <span class="hierarchy-desc">Procesy na poziomie cząsteczek i jonów — podstawa wszystkiego</span>
+        </div>
+        <div class="hierarchy-item">
+          <span class="hierarchy-num">2</span>
+          <div class="hierarchy-arrow"></div>
+          <span class="hierarchy-name" style="color:var(--cyan)">Organizacja komórkowa</span>
+          <span class="hierarchy-desc">Działanie pojedynczych komórek tworzących tkanki</span>
+        </div>
+        <div class="hierarchy-item">
+          <span class="hierarchy-num">3</span>
+          <div class="hierarchy-arrow"></div>
+          <span class="hierarchy-name" style="color:var(--cyan)">Poziom tkankowy</span>
+          <span class="hierarchy-desc">Tkanki działają razem, tworzą zespoły o określonych funkcjach</span>
+        </div>
+        <div class="hierarchy-item">
+          <span class="hierarchy-num">4</span>
+          <div class="hierarchy-arrow"></div>
+          <span class="hierarchy-name" style="color:var(--cyan)">Poziom narządowy</span>
+          <span class="hierarchy-desc">Tkanki działające razem → narządy (np. żołądek, serce)</span>
+        </div>
+        <div class="hierarchy-item">
+          <span class="hierarchy-num">5</span>
+          <div class="hierarchy-arrow"></div>
+          <span class="hierarchy-name" style="color:var(--cyan)">Poziom układowy</span>
+          <span class="hierarchy-desc">Grupy narządów o określonych funkcjach (np. układ krwionośny, nerwowy)</span>
+        </div>
+      </div>
+
+      <div class="highlight amber">
+        <strong>Przejawy (warunki) organizmu żywego:</strong> wysoki stopień organizacji, zdolność do pobierania energii, autoregulacja komórkowa, samoodtwarzanie oraz pobudliwość — reagowanie na bodźce środowiskowe.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 2: INTEGRACJA -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="integracja">
+      <div class="section-header">
+        <div class="section-icon amber">🔗</div>
+        <div>
+          <div class="section-title">Integracja strukturalna i funkcjonalna</div>
+          <div class="section-subtitle">Wykład I · 3 rodzaje łączności</div>
+        </div>
+      </div>
+
+      <p>Aby organizm mógł działać jako spójna całość, potrzebne są trzy rodzaje łączności, które umożliwiają komunikację między wszystkimi jego poziomami.</p>
+
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-num">01</div>
+          <div class="mini-card-title">Mechaniczna</div>
+          <p>Układ mięśniowo-kostny — scala organizm fizycznie, umożliwia ruch</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-num">02</div>
+          <div class="mini-card-title">Chemiczna</div>
+          <p>Krążenie krwi w naczyniach krwionośnych — transport substancji</p>
+        </div>
+        <div class="mini-card" style="border-color: rgba(0,232,200,0.3);">
+          <div class="mini-card-num" style="color: var(--cyan); opacity: 1;">03</div>
+          <div class="mini-card-title" style="color: var(--cyan)">Nerwowa ⭐</div>
+          <p style="color: var(--text)">Układ nerwowy integruje WSZYSTKIE szczeble organizacji — najważniejsza!</p>
+        </div>
+      </div>
+
+      <div class="highlight cyan">
+        Dzięki współpracy tych trzech systemów organizm może: utrzymywać stałość środowiska wewnętrznego, zachować łączność ze środowiskiem zewnętrznym i dynamicznie adaptować się do zmieniających się warunków.
+      </div>
+
+      <div class="h2">Płyny ustrojowe</div>
+      <p>Ludzkie ciało składa się w ~60% z płynów (noworodek 80%). Skład wody ciała jest podobny do wody morskiej. Najbardziej uwodnionym narządem jest mózg.</p>
+
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-title">Zewnątrzkomórkowe</div>
+          <p>Transportują składniki odżywcze, znajdują się poza komórkami</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Wewnątrzkomórkowe</div>
+          <p>Wypełniają wnętrze komórek</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Transfuzalne</div>
+          <p>Specjalne funkcje, np. płyn ciała szklistego w oku</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 3: HOMEOSTAZA -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="homeostaza">
+      <div class="section-header">
+        <div class="section-icon violet">⚖️</div>
+        <div>
+          <div class="section-title">Homeostaza</div>
+          <div class="section-subtitle">Wykład I · Wewnętrzna równowaga</div>
+        </div>
+      </div>
+
+      <div class="highlight violet">
+        <strong>Homeostaza (W. Cannon)</strong> — regulowanie przepływów substancji i energii w celu zapewnienia stabilności warunków wewnętrznych. Jak termostat: ciało reguluje temperaturę, poziom cukru, nawodnienie.
+      </div>
+
+      <p>Organizm ludzki jest układem <span class="term">dynamicznym i otwartym</span> — stale wymienia energię i substancje ze środowiskiem. Istotę organizmu stanowi jego struktura informacyjna.</p>
+
+      <div class="h2">3 możliwości wynikające z homeostazy</div>
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-title">Stałość wewnętrzna</div>
+          <p>Utrzymywanie stałości środowiska wewnętrznego ustroju</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Łączność zewnętrzna</div>
+          <p>Zachowanie łączności ustroju ze środowiskiem zewnętrznym</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Równowaga dynamiczna</div>
+          <p>Utrzymywanie równowagi dynamicznej w środowisku zewnętrznym</p>
+        </div>
+      </div>
+
+      <div class="h2">Obszary homeostazy</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Obszar</th>
+            <th>Opis</th>
+            <th>Konsekwencje wyjścia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="term">H — Homeostazy</span></td>
+            <td>Optimum fizjologiczne — organizm działa sprawnie</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><span class="term-amber">S — Stacjonarności</span></td>
+            <td>Organizm zagrożony, ale może jeszcze wrócić do normy</td>
+            <td>Choroby, osłabienie</td>
+          </tr>
+          <tr>
+            <td><span class="term-rose">Poza S</span></td>
+            <td>Zmiany nieodwracalne</td>
+            <td>Śmierć / wyginięcie</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 4: METABOLIZM -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="metabolizm">
+      <div class="section-header">
+        <div class="section-icon green">⚡</div>
+        <div>
+          <div class="section-title">Metabolizm</div>
+          <div class="section-subtitle">Wykład I · Przepływ energii</div>
+        </div>
+      </div>
+
+      <div class="highlight green">
+        <strong>Metabolizm</strong> — przepływ substancji i energii, który odbywa się z odpowiednią szybkością dla odpowiednich stężeń substancji. Wszystkie procesy przekształcające jedzenie w energię i składniki niezbędne do życia.
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="border-color: rgba(0,232,200,0.3);">
+          <div class="card-title" style="color: var(--cyan)">Anaboliczne 🏗️</div>
+          <p>Pokarm zużywany do <strong>budowania</strong> organizmu — wzrost, rozwój, tworzenie mięśni, synteza białek. Jeśli po zjedzeniu energii, skierowana zostaje na odbudowę i budowę nowych tkanek.</p>
+        </div>
+        <div class="card" style="border-color: rgba(240,165,0,0.3);">
+          <div class="card-title" style="color: var(--amber)">Kataboliczne 🔥</div>
+          <p>Dostarczane składniki są <strong>rozkładane</strong> i stanowią energetyczny zapas dla komórek. Przekształcanie złożonych cząsteczek w prostsze z uwolnieniem energii.</p>
+        </div>
+      </div>
+
+      <p>Procesy wewnętrzne są cykliczne — uzależnione od wewnętrznych sprzężeń zwrotnych, ale niezależne od środowiska. Cykliczność wielu parametrów fizjologicznych świadczy o wewnętrznym układzie regulującym.</p>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 5: SPRZĘŻENIA -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="sprzezenia">
+      <div class="section-header">
+        <div class="section-icon rose">🔄</div>
+        <div>
+          <div class="section-title">Sprzężenia zwrotne</div>
+          <div class="section-subtitle">Wykład I · Regulacja homeostazy</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Sprzężenie <span class="term">ujemne</span> ↩️</div>
+          <p>System cofający zmiany do normy. Przykład: gdy jest za gorąco — organizm się poci i ochładza. Glukoza–insulina: insulina obniża poziom cukru.</p>
+          <div class="highlight cyan" style="margin-top: 12px;">
+            Zapewnia <strong>równowagę systemu</strong> — przywraca stan wyjściowy
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Sprzężenie <span class="term-amber">dodatnie</span> ↗️</div>
+          <p>System wzmacniający zmiany do osiągnięcia celu. Przykład: skurcze macicy podczas porodu — narastają coraz silniej do końca.</p>
+          <div class="highlight amber" style="margin-top: 12px;">
+            Wzmacnia zmiany, by <strong>szybko osiągnąć cel</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="h2">Homologia morfologiczno-fizjologiczna</div>
+      <div class="highlight violet">
+        Umożliwia analizowanie funkcji organizmu ludzkiego na podstawie badań innych zwierząt. Jesteśmy do nich podobni pod kątem morfologii i fizjologii — dlatego badania na zwierzętach mają przełożenie na ludzi.
+        <br><br>
+        <strong>Homologia</strong> — dwa narządy wyewoluowały z tego samego pnia. <br>
+        <strong>Analogia</strong> — podobieństwo, ale narządy wyewoluowały niezależnie.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 6: UKŁAD NERWOWY -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="uklad-nerwowy">
+      <div class="section-header">
+        <div class="section-icon cyan">🧠</div>
+        <div>
+          <div class="section-title">Układ nerwowy</div>
+          <div class="section-subtitle">Wykład II · Struktura i funkcja</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Podział anatomiczny</div>
+          <ul class="styled-list">
+            <li><strong>Ośrodkowy (OUN)</strong> — mózg + rdzeń kręgowy</li>
+            <li><strong>Obwodowy (OBN)</strong> — nerwy, zwoje poza OUN</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Podział funkcjonalny</div>
+          <ul class="styled-list">
+            <li><strong>Somatyczny</strong> — kontrola świadoma, mięśnie szkieletowe</li>
+            <li><strong>Autonomiczny</strong> — kontrola nieświadoma (serce, jelita)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="h2">Funkcje układu nerwowego</div>
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-title">Regulacyjna</div>
+          <p>Koordynuje działanie narządów i układów</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Informacyjna</div>
+          <p>Przetwarza informacje ze środowiska zewnętrznego i wewnętrznego</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Asocjacyjna</div>
+          <p>Kojarzenie, uczenie się, pamięć</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 7: NEURON -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="neuron">
+      <div class="section-header">
+        <div class="section-icon amber">⚡</div>
+        <div>
+          <div class="section-title">Budowa neuronu</div>
+          <div class="section-subtitle">Wykład II · Podstawowa jednostka</div>
+        </div>
+      </div>
+
+      <p>Neuron to podstawowa komórka układu nerwowego. Jego funkcją jest <span class="term">wytwarzanie i przewodzenie zakodowanych informacji</span> w postaci impulsów nerwowych — poprzez procesy elektrochemiczne w błonie komórkowej.</p>
+
+      <!-- Stylized neuron diagram using CSS -->
+      <div class="potential-diagram">
+        <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+          <div style="flex: 0 0 auto;">
+            <svg width="260" height="140" viewBox="0 0 260 140">
+              <!-- Dendrites -->
+              <line x1="60" y1="30" x2="90" y2="70" stroke="#5a7499" stroke-width="2"/>
+              <line x1="40" y1="50" x2="90" y2="70" stroke="#5a7499" stroke-width="2"/>
+              <line x1="50" y1="90" x2="90" y2="70" stroke="#5a7499" stroke-width="2"/>
+              <line x1="30" y1="70" x2="90" y2="70" stroke="#5a7499" stroke-width="2"/>
+              <!-- Spine endings on dendrites -->
+              <circle cx="60" cy="30" r="4" fill="#00e8c8" opacity="0.7"/>
+              <circle cx="40" cy="50" r="4" fill="#00e8c8" opacity="0.7"/>
+              <circle cx="50" cy="90" r="4" fill="#00e8c8" opacity="0.7"/>
+              <circle cx="30" cy="70" r="4" fill="#00e8c8" opacity="0.7"/>
+              <!-- Cell body -->
+              <ellipse cx="110" cy="70" rx="22" ry="22" fill="#0a1220" stroke="#f0a500" stroke-width="1.5"/>
+              <circle cx="110" cy="70" r="8" fill="#f0a500" opacity="0.3"/>
+              <circle cx="110" cy="70" r="3" fill="#f0a500" opacity="0.8"/>
+              <!-- Axon hillock + axon -->
+              <line x1="132" y1="70" x2="175" y2="70" stroke="#9b72f0" stroke-width="3"/>
+              <!-- Myelin sheaths -->
+              <rect x="140" y="64" width="14" height="12" rx="6" fill="#9b72f0" opacity="0.25"/>
+              <rect x="158" y="64" width="14" height="12" rx="6" fill="#9b72f0" opacity="0.25"/>
+              <!-- Nodes of Ranvier -->
+              <circle cx="155" cy="70" r="2.5" fill="#e8f4ff"/>
+              <!-- Axon terminals -->
+              <line x1="175" y1="70" x2="200" y2="50" stroke="#9b72f0" stroke-width="2"/>
+              <line x1="175" y1="70" x2="205" y2="70" stroke="#9b72f0" stroke-width="2"/>
+              <line x1="175" y1="70" x2="200" y2="90" stroke="#9b72f0" stroke-width="2"/>
+              <circle cx="200" cy="50" r="5" fill="#9b72f0" opacity="0.6"/>
+              <circle cx="205" cy="70" r="5" fill="#9b72f0" opacity="0.6"/>
+              <circle cx="200" cy="90" r="5" fill="#9b72f0" opacity="0.6"/>
+              <!-- Labels -->
+              <text x="18" y="25" fill="#5a7499" font-size="9" font-family="Karla">Dendryty</text>
+              <text x="96" y="105" fill="#f0a500" font-size="9" font-family="Karla">Ciało kom.</text>
+              <text x="138" y="58" fill="#9b72f0" font-size="9" font-family="Karla">Otoczka</text>
+              <text x="138" y="68" fill="#9b72f0" font-size="9" font-family="Karla">mielinowa</text>
+              <text x="196" y="40" fill="#9b72f0" font-size="9" font-family="Karla">Akson</text>
+            </svg>
+          </div>
+          <div style="flex: 1; min-width: 200px;">
+            <table class="data-table" style="margin: 0;">
+              <thead><tr><th>Element</th><th>Funkcja</th></tr></thead>
+              <tbody>
+                <tr><td>Dendryty</td><td>Odbierają sygnały wejściowe (aferentne)</td></tr>
+                <tr><td>Ciało komórki</td><td>Centrum metaboliczne, ciałka Nissla</td></tr>
+                <tr><td>Wzgórek aksonalny</td><td>Tu decyduje się: impulsu albo nie</td></tr>
+                <tr><td>Akson</td><td>Przewodzi impuls do zakończeń</td></tr>
+                <tr><td>Otoczka mielinowa</td><td>Izolacja, przyspiesza przewodzenie</td></tr>
+                <tr><td>Przewężenia Ranviera</td><td>Umożliwiają przewodzenie skokowe</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="h2">Typy neuronów</div>
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-title" style="color: var(--violet)">Rdzenne (mielinowe)</div>
+          <p>Posiadają otoczkę mielinową. W OUN tworzą ją <strong>oligodendrocyty</strong>, w obwodowym — <strong>komórki Schwanna</strong>. Przewodzenie skokowe (szybkie).</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title" style="color: var(--text-muted)">Bezrdzenne (bez mieliny)</div>
+          <p>Brak otoczki mielinowej. Przewodzenie ciągłe — wolniejsze. Informacja płynie równomiernie przez całą długość.</p>
+        </div>
+      </div>
+
+      <div class="highlight rose">
+        <strong>Choroby demielinizacyjne</strong> — uszkodzenie osłonek mielinowych. Przykład: <strong>stwardnienie rozsiane (SM)</strong> — pojawia się między 20–40 r. życia. Objawy: drżenie, niedowłady kończyn, skandowana mowa, porażenie nerwów okoruchowych.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 8: POTENCJAŁ -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="potencjal">
+      <div class="section-header">
+        <div class="section-icon violet">📈</div>
+        <div>
+          <div class="section-title">Potencjał czynnościowy</div>
+          <div class="section-subtitle">Wykład II · Elektrofizjologia</div>
+        </div>
+      </div>
+
+      <div class="highlight cyan">
+        <strong>Potencjał spoczynkowy:</strong> od –60 mV do –90 mV. Wnętrze komórki jest bardziej ujemne niż zewnętrze — stała różnica potencjałów warunkowana gradientem jonów K⁺ przez błonę komórkową.
+      </div>
+
+      <!-- Action Potential SVG Chart -->
+      <div class="ap-container">
+        <div style="font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px;">Schemat potencjału czynnościowego</div>
+        <svg viewBox="0 0 500 200" style="width:100%; max-height:200px;">
+          <!-- Grid lines -->
+          <line x1="50" y1="20" x2="50" y2="180" stroke="#1e2d42" stroke-width="1"/>
+          <line x1="50" y1="100" x2="480" y2="100" stroke="#1e2d42" stroke-width="1"/>
+          <line x1="50" y1="55" x2="480" y2="55" stroke="#1e2d42" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <line x1="50" y1="155" x2="480" y2="155" stroke="#1e2d42" stroke-width="0.5" stroke-dasharray="4,4"/>
+          <!-- Y axis labels -->
+          <text x="42" y="104" fill="#5a7499" font-size="10" text-anchor="end">0</text>
+          <text x="42" y="59" fill="#5a7499" font-size="10" text-anchor="end">+40</text>
+          <text x="42" y="159" fill="#5a7499" font-size="10" text-anchor="end">–70</text>
+          <text x="20" y="100" fill="#5a7499" font-size="10" transform="rotate(-90,20,100)" text-anchor="middle">mV</text>
+          <!-- Resting potential (left) -->
+          <line x1="50" y1="155" x2="130" y2="155" stroke="#00e8c8" stroke-width="2.5"/>
+          <!-- Threshold -->
+          <line x1="50" y1="120" x2="480" y2="120" stroke="#f0a500" stroke-width="1" stroke-dasharray="6,4" opacity="0.5"/>
+          <text x="458" y="117" fill="#f0a500" font-size="9" opacity="0.7">próg</text>
+          <!-- Depolarization -->
+          <path d="M130,155 Q145,155 155,120 L180,30" fill="none" stroke="#00e8c8" stroke-width="2.5"/>
+          <!-- Peak / spike -->
+          <path d="M180,30 L200,55" fill="none" stroke="#00e8c8" stroke-width="2.5"/>
+          <!-- Repolarization -->
+          <path d="M200,55 Q230,55 250,100 Q270,145 290,165" fill="none" stroke="#00e8c8" stroke-width="2.5"/>
+          <!-- Hyperpolarization -->
+          <path d="M290,165 Q320,170 350,165 Q390,155 430,155" fill="none" stroke="#9b72f0" stroke-width="2.5"/>
+          <!-- Resting potential (right) -->
+          <line x1="430" y1="155" x2="480" y2="155" stroke="#00e8c8" stroke-width="2.5"/>
+          <!-- Annotations -->
+          <text x="155" y="20" fill="#e8f4ff" font-size="10">Depolaryzacja</text>
+          <text x="230" y="90" fill="#e8f4ff" font-size="10">Repolaryzacja</text>
+          <text x="310" y="185" fill="#9b72f0" font-size="10">Hiperpolaryzacja</text>
+          <text x="60" y="148" fill="#00e8c8" font-size="9">spoczynek</text>
+          <!-- Na arrow -->
+          <text x="155" y="80" fill="#f05478" font-size="10">Na⁺ →</text>
+          <!-- K arrow -->
+          <text x="220" y="135" fill="#f0a500" font-size="10">← K⁺</text>
+        </svg>
+      </div>
+
+      <div class="h2">Fazy potencjału czynnościowego</div>
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-num" style="color: var(--rose)">1</div>
+          <div class="mini-card-title">Depolaryzacja</div>
+          <p>Jony Na⁺ wpadają do środka. Ładunek wewnętrzny staje się dodatni. Bodziec musi przekroczyć <strong>próg: –55 mV</strong></p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-num" style="color: var(--amber)">2</div>
+          <div class="mini-card-title">Repolaryzacja</div>
+          <p>Jony K⁺ wypływają na zewnątrz. Napięcie wraca w kierunku wartości spoczynkowej</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-num" style="color: var(--violet)">3</div>
+          <div class="mini-card-title">Hiperpolaryzacja</div>
+          <p>Krótkie przekroczenie potencjału spoczynkowego poniżej –70 mV. Neuron chwilowo mniej pobudliwy</p>
+        </div>
+      </div>
+
+      <div class="h2">Zasada "Wszystko albo nic"</div>
+      <div class="highlight amber">
+        Potencjał czynnościowy albo powstaje w pełnej sile, albo nie powstaje wcale. Nie ma potencjałów "połowicznych". Siłę bodźca kodujemy <strong>częstotliwością</strong> impulsów (Kod Częstotliwości), nie ich amplitudą.
+      </div>
+
+      <div class="h2">Pompa sodowo-potasowa</div>
+      <div class="card">
+        <div class="card-title">3 Na⁺ na zewnątrz · 2 K⁺ do środka</div>
+        <p>Białko błonowe działające jak pompa — zużywa ATP. <strong>1 neuron ma ~1 milion pomp</strong>, które łącznie zużywają 30% całego metabolizmu tkanek pobudliwych. Niezbędna do utrzymania równowagi jonowej i potencjału spoczynkowego.</p>
+      </div>
+
+      <div class="h2">Refrakcja</div>
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-title" style="color: var(--rose)">Bezwzględna</div>
+          <p>Okres całkowitej niepobudliwości (~1 ms). Błona nie reaguje na żadny bodziec. Gwarantuje jednokierunkowość impulsu.</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title" style="color: var(--amber)">Względna</div>
+          <p>Komórkę można pobudzić, ale bodziec musi być silniejszy niż zwykle</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 9: SYNAPSY -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="synapsy">
+      <div class="section-header">
+        <div class="section-icon rose">🔌</div>
+        <div>
+          <div class="section-title">Synapsy</div>
+          <div class="section-subtitle">Wykład II · Przekazywanie informacji</div>
+        </div>
+      </div>
+
+      <div class="highlight cyan">
+        <strong>Synapsa</strong> — miejsce stykania się (przez szczelinę synaptyczną ~20–40 nm) błony komórkowej zakończenia aksonu (<em>presynaptyczna</em>) z błoną komórkową drugiej komórki (<em>postsynaptyczna</em>). Jak impreza: PRE organizuje, POST przychodzi.
+      </div>
+
+      <!-- Synapse visual -->
+      <div class="synapse-visual">
+        <div class="synapse-side">
+          <div class="synapse-side-label">Błona</div>
+          <div class="synapse-side-name">Presynaptyczna</div>
+          <div class="vesicles">
+            <div class="vesicle"></div>
+            <div class="vesicle"></div>
+            <div class="vesicle"></div>
+          </div>
+          <p>Kolbka synaptyczna<br>Pęcherzyki z NT<br>Mitochondria</p>
+        </div>
+        <div class="synapse-gap">
+          <div class="synapse-gap-label">Szczelina</div>
+          <div class="synapse-gap-val">20–40<br><span style="font-size:0.7rem; color: var(--text-muted)">nm</span></div>
+        </div>
+        <div class="synapse-side">
+          <div class="synapse-side-label">Błona</div>
+          <div class="synapse-side-name">Postsynaptyczna</div>
+          <p>Receptory<br>Kanały jonowe<br>Białka G</p>
+        </div>
+      </div>
+
+      <div class="h2">Typy synaps — według połączeń</div>
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-title">Aksono-dendrytyczna</div>
+          <p>Akson łączy się z dendrytem — najczęstszy typ</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Aksono-somatyczna</div>
+          <p>Akson łączy się z ciałem komórki nerwowej</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Aksono-aksonalna</div>
+          <p>Akson łączy się z innym aksonem</p>
+        </div>
+      </div>
+
+      <div class="h2">Typy synaps — według rodzaju impulsu</div>
+      <div class="grid-2">
+        <div class="card" style="border-color: rgba(0,232,200,0.3);">
+          <div class="card-title" style="color: var(--cyan)">Elektryczne ⚡</div>
+          <p>Ścisły kontakt przez <strong>koneksyny</strong> (białka porowe). Przepływ prądu dwukierunkowy, bez opóźnień. Szybka synchronizacja sieci neuronowych.</p>
+        </div>
+        <div class="card" style="border-color: rgba(155,114,240,0.3);">
+          <div class="card-title" style="color: var(--violet)">Chemiczne 💊</div>
+          <p>Przez neuroprzekaźniki (NT). Szczelina 20–40 nm, przepływ <strong>jednokierunkowy</strong>. Odkryte przez Otto Loewi w 1921 r.</p>
+        </div>
+      </div>
+
+      <div class="h2">Konwergencja vs Dywergencja</div>
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-title" style="color: var(--cyan)">Synapsy aferentne → Konwergencja</div>
+          <p>Wiele sygnałów z różnych neuronów zbiegają się na jeden neuron. Integracja informacji.</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title" style="color: var(--amber)">Synapsy eferentne → Dywergencja</div>
+          <p>Jeden sygnał rozchodzi się do wielu neuronów. Dystrybucja informacji.</p>
+        </div>
+      </div>
+
+      <div class="h2">Waga synaptyczna i uczenie się</div>
+      <div class="highlight violet">
+        <strong>Waga synaptyczna (PSP)</strong> — każda synapsa ma swoją wagę. Im wyższa waga, tym większy wpływ na generowanie potencjału czynnościowego. <strong>Uczenie się zmienia wagi synaptyczne</strong> — reorganizuje sieci neuronalne, tworząc trwałe zmiany strukturalne.
+        <br><br>
+        <strong>Habituacja</strong> — przyzwyczajanie do bodźca (ignorujemy głośny hałas po jakimś czasie).
+        <strong>Sensytyzacja</strong> — wyczulenie na bodziec po nieprzyjemnym doświadczeniu.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 10: NEUROPRZEKAŹNIKI -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="neuroprzek">
+      <div class="section-header">
+        <div class="section-icon amber">💬</div>
+        <div>
+          <div class="section-title">Neuroprzekaźniki</div>
+          <div class="section-subtitle">Wykład II · Chemia mózgu</div>
+        </div>
+      </div>
+
+      <div class="highlight cyan">
+        <strong>Neuroprzekaźnik</strong> = SMS między neuronami. Neuron wysyłający to nadawca, drugi to odbiorca, a synapsa to sieć komórkowa. Substancje chemiczne wiążą się z receptorami i wywołują reakcję (pobudzenie lub hamowanie).
+      </div>
+
+      <div class="h2">Acetylocholina (ACh)</div>
+      <div class="card">
+        <div class="card-title">Acetylocholina — układ cholinergiczny</div>
+        <p>Syntezowana w zakończeniach nerwowych. Występuje w synapsach nerwowo-mięśniowych i OUN. Przy chorobie Alzheimera — układ cholinergiczny jest zaburzony.</p>
+        <div class="grid-2" style="margin-top: 12px;">
+          <div class="mini-card">
+            <div class="mini-card-title">Receptory nikotynowe (jonotropowe)</div>
+            <p>Szybka reakcja — synapsy nerwowo-mięśniowe. Skurcz mięśni, procesy poznawcze, pamięć.</p>
+          </div>
+          <div class="mini-card">
+            <div class="mini-card-title">Receptory muskarynowe (metabotropowe)</div>
+            <p>Wolna reakcja — układ autonomiczny. Kontrola tętna, trawienia, wydzielania potu.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="h2">Aminy biogenne — układ adrenergiczny</div>
+      <div class="nt-grid">
+        <div class="nt-card" style="border-color: rgba(240,84,120,0.3);">
+          <div class="nt-name" style="color: var(--rose)">Adrenalina</div>
+          <div class="nt-type">Katecholamina</div>
+          <div class="nt-desc">Hormon i NT reakcji "walcz albo uciekaj". Przyspiesza tętno, podnosi ciśnienie, mobilizuje organizm w stresie.</div>
+        </div>
+        <div class="nt-card" style="border-color: rgba(240,165,0,0.3);">
+          <div class="nt-name" style="color: var(--amber)">Noradrenalina</div>
+          <div class="nt-type">Katecholamina</div>
+          <div class="nt-desc">Reguluje uwagę, koncentrację i reakcję na stres. Wpływa na nastrój i poziom czuwania.</div>
+        </div>
+        <div class="nt-card" style="border-color: rgba(155,114,240,0.3);">
+          <div class="nt-name" style="color: var(--violet)">Dopamina</div>
+          <div class="nt-type">Katecholamina</div>
+          <div class="nt-desc">Kluczowa dla ruchu, motywacji i systemu nagrody.</div>
+          <div class="nt-disease" style="background: var(--rose-dim); color: var(--rose)">↓ → Choroba Parkinsona</div>
+        </div>
+        <div class="nt-card" style="border-color: rgba(0,232,200,0.3);">
+          <div class="nt-name" style="color: var(--cyan)">Serotonina</div>
+          <div class="nt-type">Amina biogenna</div>
+          <div class="nt-desc">Odpowiada za nastrój, sen, apetyt i regulację emocji. Duże zagęszczenie w górnej części pnia mózgu.</div>
+          <div class="nt-disease" style="background: var(--rose-dim); color: var(--rose)">↓ → Depresja, schizofrenia, ch. afektywna dwubiegunowa</div>
+        </div>
+        <div class="nt-card">
+          <div class="nt-name" style="color: var(--text)">Histamina</div>
+          <div class="nt-type">Amina biogenna</div>
+          <div class="nt-desc">Reguluje funkcje wegetatywne, pobieranie pokarmu, kontrolę apetytu, uwalnianie hormonów (np. podczas reakcji alergicznych).</div>
+        </div>
+        <div class="nt-card" style="border-color: rgba(74,222,128,0.3);">
+          <div class="nt-name" style="color: var(--green)">GABA</div>
+          <div class="nt-type">Aminokwas · Hamujący</div>
+          <div class="nt-desc">Główny NT hamujący w mózgu. 200–1000× więcej niż ACh. 20% synaps jest GABA-ergicznych. Receptory GABA wiążą benzodiazepiny (Valium) i barbiturany (Weronal).</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-title" style="color: var(--rose)">Kwas glutaminowy</div>
+          <p>Główny NT <strong>pobudzający</strong> w mózgu. Odpowiada za wzbudzanie sygnałów między neuronami.</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title" style="color: var(--text-muted)">Glicyna</div>
+          <p>Działa <strong>hamująco</strong>, głównie w rdzeniu kręgowym i pniu mózgu.</p>
+        </div>
+      </div>
+
+      <div class="h2">Enzymy rozkładające NT</div>
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-title">MAO (Monoaminooksydaza)</div>
+          <p>Rozkłada aminy biogenne: dopaminę, serotoninę, noradrenalinę. Kluczowa dla równowagi NT.</p>
+          <p style="margin-top: 6px; font-size: 0.75rem; color: var(--text-muted)">Inhibitory MAO (np. Imipramina) → leczenie depresji</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">COMT (Matylotransferaza katecholaminowa)</div>
+          <p>Rozkłada katecholaminy (adrenalinę). Działa głównie poza synapsami.</p>
+        </div>
+      </div>
+
+      <div class="h2">Leki wpływające na NT</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>Lek</th><th>Mechanizm</th><th>Zastosowanie</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Prozac (fluoksetyna)</td><td>Inhibitor wychwytu zwrotnego serotoniny (SSRI)</td><td>Depresja</td></tr>
+          <tr><td>Imipramina</td><td>Inhibitor MAO, blokuje wychwyt zwrotny</td><td>Depresja</td></tr>
+          <tr><td>Neuroleptyki</td><td>Blokują receptory dopaminowe</td><td>Schizofrenia</td></tr>
+          <tr><td>Rezerpina</td><td>Przyspiesza rozkład amin katecholowych</td><td>Nadciśnienie</td></tr>
+          <tr><td>Amfetamina</td><td>Pobudza receptory dopaminowe</td><td>Lek / narkotyk</td></tr>
+          <tr><td>Benzodiazepiny</td><td>Wiążą receptory GABA</td><td>Lęki, bezsenność</td></tr>
+        </tbody>
+      </table>
+
+      <div class="h2">Neuropeptydy</div>
+      <div class="highlight violet">
+        Działają dłużej niż klasyczne NT, nie ma mechanizmu wychwytu zwrotnego — rozkładane przez enzymy.
+        <br><br>
+        <strong>Oksytocyna</strong> — wzmacnia więzi, przywiązanie. <strong>Liberyny</strong> — neurohormony z podwzgórza. <strong>Peptydy</strong> — endogenne morfiny (zmniejszają ból).
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 11: KOMÓRKI GLEJOWE -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="komorki-glej">
+      <div class="section-header">
+        <div class="section-icon green">🛡️</div>
+        <div>
+          <div class="section-title">Komórki glejowe</div>
+          <div class="section-subtitle">Wykład II · Wsparcie układu nerwowego</div>
+        </div>
+      </div>
+
+      <p>Komórki glejowe (glej/neuroglej) — kilkakrotnie liczniejsze niż neurony. <strong>80% kory mózgowej to komórki glejowe</strong>. Nie przewodzą impulsów, ale są niezbędne dla prawidłowego działania neuronów.</p>
+
+      <div class="grid-3">
+        <div class="mini-card" style="border-color: rgba(0,232,200,0.25);">
+          <div class="mini-card-title" style="color: var(--cyan)">Astrocyty ⭐</div>
+          <p>Kształtem przypominają gwiazdę. Owijają się wokół synaps, synchronizują neurony, biorą udział w oczyszczaniu, tworzą barierę krew-mózg.</p>
+        </div>
+        <div class="mini-card" style="border-color: rgba(155,114,240,0.25);">
+          <div class="mini-card-title" style="color: var(--violet)">Oligodendrocyty</div>
+          <p>Tworzą otoczkę mielinową w OUN. Owijają aksony, izolują je i zapewniają składniki odżywcze.</p>
+        </div>
+        <div class="mini-card" style="border-color: rgba(240,84,120,0.25);">
+          <div class="mini-card-title" style="color: var(--rose)">Mikroglej 🦠</div>
+          <p>Małe komórki żerne — usuwają materiał odpadowy, wirusy, grzyby. Funkcja immunologiczna OUN.</p>
+        </div>
+      </div>
+
+      <div class="highlight amber">
+        W chorobach takich jak <strong>depresja, schizofrenia, choroba afektywna dwubiegunowa</strong> stwierdzono zmniejszoną ilość komórek glejowych. Wpływają one na plastyczność mózgowia i reparację procesów neurodegeneracyjnych.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 12: MIĘŚNIE -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="miesnie">
+      <div class="section-header">
+        <div class="section-icon amber">💪</div>
+        <div>
+          <div class="section-title">Układ mięśniowy</div>
+          <div class="section-subtitle">Wykłady III–V · Budowa i funkcje</div>
+        </div>
+      </div>
+
+      <div class="h2">Funkcje układu mięśniowego</div>
+      <div class="grid-3">
+        <div class="mini-card">
+          <div class="mini-card-num">1</div>
+          <div class="mini-card-title">Silnik mechaniczny</div>
+          <p>Umożliwia ruch całego ciała</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-num">2</div>
+          <div class="mini-card-title">Termogeneza</div>
+          <p>Poprzez drgania (dreszcze) wytwarzane jest ciepło</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-num">3</div>
+          <div class="mini-card-title">Funkcja zapasowa</div>
+          <p>Gdy brakuje tłuszczu, z mięśni pobierane jest białko (kosztem masy)</p>
+        </div>
+      </div>
+
+      <div class="h2">Typy mięśni</div>
+      <div class="muscle-card">
+        <div class="muscle-emoji">〰️</div>
+        <div class="muscle-content">
+          <h4>Mięśnie gładkie</h4>
+          <p>Ściany naczyń i narządów wewnętrznych. Niezależne od woli, działają powoli ale długotrwale. Jedno jądro, włókna nierównomiernie ułożone.</p>
+        </div>
+      </div>
+      <div class="muscle-card" style="border-color: rgba(0,232,200,0.2);">
+        <div class="muscle-emoji">💪</div>
+        <div class="muscle-content">
+          <h4>Mięśnie poprzecznie prążkowane (szkieletowe)</h4>
+          <p>Podstawowy silnik ruchu — kontrola świadoma. Szybkie (7–40 ms) i wolne (94–120 ms). Szybko się męczą. Włókna równolegle ułożone, wiele jąder.</p>
+        </div>
+      </div>
+      <div class="muscle-card" style="border-color: rgba(240,84,120,0.2);">
+        <div class="muscle-emoji">❤️</div>
+        <div class="muscle-content">
+          <h4>Mięsień sercowy</h4>
+          <p>Poprzecznie prążkowany ale niezależny od woli. Komórki schodzą się pod odpowiednimi kątami tworząc syncycjum. Działa całe życie bez przerwy.</p>
+        </div>
+      </div>
+
+      <div class="h2">Budowa włókna mięśniowego</div>
+      <div class="card">
+        <p>Włókno mięśniowe składa się z <span class="term">sarkomerów</span> — najmniejszych jednostek kurczliwych. Sarkomery zawierają:</p>
+        <ul class="styled-list" style="margin-top: 10px;">
+          <li><strong>Grube włókna (miozyna)</strong> — prążek anizotropowy (A)</li>
+          <li><strong>Cienkie włókna (aktyna + tropomiozyna)</strong> — prążek izotropowy (I)</li>
+          <li><strong>Pompa wapniowa</strong> — w czasie skurczu Ca²⁺ wiąże się z troponiną, umożliwiając skurcz</li>
+        </ul>
+        <div class="highlight green" style="margin-top: 14px;">
+          <strong>Mechanizm ślizgowy</strong> — aktyna i miozyna przesuwają się względem siebie. Nitki aktyny zbliżają się, gdy Ca²⁺ uwalnia się ze zbiornika końcowego siateczki sarkoplazmatycznej.
+        </div>
+      </div>
+
+      <div class="h2">Jednostka motoryczna</div>
+      <div class="highlight cyan">
+        <strong>Jednostka motoryczna</strong> = jedna komórka nerwowa + wszystkie mięśnie, które unerwia (ok. 150 komórek mięśniowych). Siła skurczu zależy od: liczby aktywnych jednostek motorycznych, częstotliwości ich pobudzania oraz stopnia rozciągnięcia mięśnia przed skurczem.
+      </div>
+
+      <div class="h2">Typy współdziałania mięśni</div>
+      <div class="grid-2">
+        <div class="mini-card"><div class="mini-card-title">Protagonistyczne</div><p>Wywołują ten sam ruch</p></div>
+        <div class="mini-card"><div class="mini-card-title">Synergistyczne</div><p>Zwiększają skuteczność ruchu</p></div>
+        <div class="mini-card"><div class="mini-card-title">Antagonistyczne</div><p>Zwiększają precyzję, zmniejszają szybkość — nadają płynność</p></div>
+        <div class="mini-card"><div class="mini-card-title">Stabilizujące</div><p>Utrzymują postawę i pracę stawów</p></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 13: SKURCZE -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="skurcze">
+      <div class="section-header">
+        <div class="section-icon rose">🏋️</div>
+        <div>
+          <div class="section-title">Typy skurczów mięśni</div>
+          <div class="section-subtitle">Wykłady III–V</div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="mini-card" style="border-color: rgba(0,232,200,0.3);">
+          <div class="mini-card-title" style="color: var(--cyan)">Izotoniczny</div>
+          <p>Mięsień skraca się, napięcie stałe. Np. zgięcie ręki w łokciu.</p>
+        </div>
+        <div class="mini-card" style="border-color: rgba(240,165,0,0.3);">
+          <div class="mini-card-title" style="color: var(--amber)">Izometryczny</div>
+          <p>Napięcie rośnie, długość stała. Np. podnoszenie sztangi bez ruchu.</p>
+        </div>
+        <div class="mini-card" style="border-color: rgba(155,114,240,0.3);">
+          <div class="mini-card-title" style="color: var(--violet)">Auksotoniczny</div>
+          <p>Zmienia się i napięcie, i długość. Np. bieganie — typowy skurcz w życiu codziennym.</p>
+        </div>
+      </div>
+
+      <div class="h2">Samoregulacja napięcia mięśniowego</div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Wrzecionka nerwowo-mięśniowe</div>
+          <p>Receptory wrażliwe na rozciąganie. Gdy mięsień za bardzo się rozciąga → wysyłają sygnał → skurcz ochronny. Komórki intrafuzalne.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Ciałka buławkowate (Golgiego)</div>
+          <p>Receptory w ścięgnach reagujące na napięcie. Gdy zbyt duże → sygnał hamujący → rozluźnienie mięśnia.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 14: ODRUCHY -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="odruchy">
+      <div class="section-header">
+        <div class="section-icon cyan">⚡</div>
+        <div>
+          <div class="section-title">Odruchy i łuk odruchowy</div>
+          <div class="section-subtitle">Wykłady III–V</div>
+        </div>
+      </div>
+
+      <div class="highlight cyan">
+        <strong>Odruch</strong> — odpowiedź efektora wywołana przez bodziec działający na receptor, wyzwolona za pośrednictwem układu nerwowego. Droga impulsu od receptora do efektora to <strong>łuk odruchowy</strong>.
+      </div>
+
+      <div class="h2">Łuk odruchowy — 5 elementów</div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-box">1. Receptor</div>
+        </div>
+        <div class="flow-connector">→</div>
+        <div class="flow-step">
+          <div class="flow-box">2. Włókno aferentne (dośrodkowe)</div>
+        </div>
+        <div class="flow-connector">→</div>
+        <div class="flow-step">
+          <div class="flow-box">3. Ośrodek nerwowy</div>
+        </div>
+        <div class="flow-connector">→</div>
+        <div class="flow-step">
+          <div class="flow-box">4. Włókno eferentne (odśrodkowe)</div>
+        </div>
+        <div class="flow-connector">→</div>
+        <div class="flow-step">
+          <div class="flow-box">5. Efektor</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="mini-card">
+          <div class="mini-card-title">Odruchy bezwarunkowe</div>
+          <p>Wrodzone — nie wymagają uczenia się. Np. odruch kolanowy.</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Odruchy warunkowe</div>
+          <p>Nabyte przez doświadczenie i uczenie się. Plastyczne.</p>
+        </div>
+      </div>
+
+      <div class="highlight amber">
+        Włókna aferentne wchodzą do rdzenia kręgowego przez <strong>korzenie grzbietowe</strong>. Włókna eferentne opuszczają rdzeń przez <strong>korzenie brzuszne</strong>.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 15: FISZKI -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="fiszki">
+      <div class="section-header">
+        <div class="section-icon cyan">🃏</div>
+        <div>
+          <div class="section-title">Fiszki</div>
+          <div class="section-subtitle">Kliknij, żeby odkryć odpowiedź</div>
+        </div>
+      </div>
+
+      <div class="flashcards-container">
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Co to jest homeostaza?</div>
+            <div class="flashcard-back">Regulowanie przepływów substancji i energii w celu zapewnienia stabilności warunków wewnętrznych. Jak termostat — organizm utrzymuje stałą temperaturę, poziom cukru, nawodnienie.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Jaka jest wartość potencjału spoczynkowego?</div>
+            <div class="flashcard-back">Od –60 mV do –90 mV. Wnętrze komórki jest bardziej ujemne niż zewnętrze. Utrzymywane przez pompę sodowo-potasową (3 Na⁺ na zewnątrz, 2 K⁺ do środka).</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Jaki jest próg potencjału czynnościowego?</div>
+            <div class="flashcard-back">–55 mV (potencjał progowy = spadek potencjału spoczynkowego o 1/3, czyli do –55 mV). Powyżej tego progu powstaje potencjał iglicowy według zasady "wszystko albo nic" trwający 0,5–2 ms.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Co to jest pompa sodowo-potasowa?</div>
+            <div class="flashcard-back">Białko błonowe pompujące 3 Na⁺ na zewnątrz i 2 K⁺ do środka, zużywając ATP. 1 neuron ma ~1 milion pomp. Zużywa 30% całego metabolizmu tkanek pobudliwych.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Czym różni się synapsa elektryczna od chemicznej?</div>
+            <div class="flashcard-back">Elektryczna: przez koneksyny, bez opóźnienia, przepływ dwukierunkowy, szybka synchronizacja. Chemiczna: przez neuroprzekaźniki, szczelina 20–40 nm, jednokierunkowa — bardziej regulowana.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Jakie choroby wywołuje niedobór serotoniny?</div>
+            <div class="flashcard-back">Depresja (niedobór serotoniny obniża nastrój), choroba afektywna dwubiegunowa (okresy depresji i manii), schizofrenia. Prozac (fluoksetyna) zwiększa poziom serotoniny hamując jej wychwyt zwrotny.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Co to jest GABA i jaką pełni rolę?</div>
+            <div class="flashcard-back">Kwas gamma-aminomasłowy — główny neuroprzekaźnik HAMUJĄCY w mózgu. Jest go 200–1000× więcej niż acetylocholiny. 20% synaps w mózgu jest GABA-ergicznych. Receptory GABA to miejsca wiązania benzodiazepin (Valium) i barbituranów.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Co to jest refrakcja bezwzględna?</div>
+            <div class="flashcard-back">Okres całkowitej niepobudliwości błony na bodźce (~1 ms) — ma miejsce w trakcie trwania potencjału iglicowego. Błona nie reaguje na żaden bodziec, co gwarantuje jednokierunkowość impulsu nerwowego.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Czym różni się skurcz izotoniczny od izometrycznego?</div>
+            <div class="flashcard-back">Izotoniczny: mięsień skraca się, napięcie stałe (np. zgięcie ręki). Izometryczny: długość stała, napięcie rośnie (np. podnoszenie sztangi bez ruchu). Auksotoniczny: zmiana i napięcia, i długości — typowy w codziennym ruchu.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Jakie są 3 typy komórek glejowych i ich funkcje?</div>
+            <div class="flashcard-back">Astrocyty — synchronizacja neuronów, bariera krew-mózg, oczyszczanie. Oligodendrocyty — tworzą otoczkę mielinową w OUN (komórki Schwanna w obwodowym). Mikroglej — funkcja immunologiczna, usuwają patogeny i odpady.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Co to jest stwardnienie rozsiane (SM)?</div>
+            <div class="flashcard-back">Choroba demielinizacyjna — uszkodzenie osłonek mielinowych nerwów. Pojawia się między 20–40 rokiem życia. Objawy: drżenie, niedowłady kończyn, skandowana mowa, porażenie nerwów okoruchowych.</div>
+          </div>
+        </div>
+
+        <div class="flashcard-wrap" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">Na czym polega mechanizm ślizgowy skurczu mięśnia?</div>
+            <div class="flashcard-back">Aktyna i miozyna przesuwają się względem siebie (nitki aktyny zbliżają się). Skurcz wymaga Ca²⁺ — przy skurczu jon wapnia wiąże się z troponiną, zmieniając jej kształt i umożliwiając interakcję aktyny z miozyną.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- SEKCJA 16: QUIZ -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="section" id="quiz">
+      <div class="section-header">
+        <div class="section-icon violet">🎯</div>
+        <div>
+          <div class="section-title">Quiz</div>
+          <div class="section-subtitle">Sprawdź swoją wiedzę</div>
+        </div>
+      </div>
+
+      <div class="quiz-container">
+        <div class="quiz-score" id="quizScore">
+          <div class="score-num" id="scoreNum">0/10</div>
+          <div class="score-label">Twój wynik</div>
+          <button class="btn btn-primary" onclick="restartQuiz()">Spróbuj ponownie</button>
+        </div>
+
+        <!-- Q1 -->
+        <div class="quiz-question active" data-q="0">
+          <div class="quiz-q-num">Pytanie 1 / 10</div>
+          <div class="quiz-q-text">Ile poziomów ma hierarchiczna organizacja ludzkiego ciała?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">3</button>
+            <button class="quiz-opt" onclick="answer(this, false)">4</button>
+            <button class="quiz-opt" onclick="answer(this, true)">5</button>
+            <button class="quiz-opt" onclick="answer(this, false)">6</button>
+          </div>
+          <div class="quiz-feedback" id="fb0"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next0" style="display:none">Następne →</button>
+            <span class="quiz-progress">1 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-question" data-q="1">
+          <div class="quiz-q-num">Pytanie 2 / 10</div>
+          <div class="quiz-q-text">Jaka jest wartość potencjału progowego (próg depolaryzacji)?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">–90 mV</button>
+            <button class="quiz-opt" onclick="answer(this, false)">–70 mV</button>
+            <button class="quiz-opt" onclick="answer(this, true)">–55 mV</button>
+            <button class="quiz-opt" onclick="answer(this, false)">–40 mV</button>
+          </div>
+          <div class="quiz-feedback" id="fb1"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next1" style="display:none">Następne →</button>
+            <span class="quiz-progress">2 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-question" data-q="2">
+          <div class="quiz-q-num">Pytanie 3 / 10</div>
+          <div class="quiz-q-text">Jaka jest zasada działania potencjału czynnościowego?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">Im silniejszy bodziec, tym silniejszy impuls</button>
+            <button class="quiz-opt" onclick="answer(this, true)">Wszystko albo nic — pełna siła lub brak impulsu</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Impuls powstaje tylko przy bardzo słabych bodźcach</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Siłę koduje amplituda impulsu</button>
+          </div>
+          <div class="quiz-feedback" id="fb2"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next2" style="display:none">Następne →</button>
+            <span class="quiz-progress">3 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-question" data-q="3">
+          <div class="quiz-q-num">Pytanie 4 / 10</div>
+          <div class="quiz-q-text">Który neuroprzekaźnik jest głównym NT HAMUJĄCYM w mózgu?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">Dopamina</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Serotonina</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Kwas glutaminowy</button>
+            <button class="quiz-opt" onclick="answer(this, true)">GABA</button>
+          </div>
+          <div class="quiz-feedback" id="fb3"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next3" style="display:none">Następne →</button>
+            <span class="quiz-progress">4 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="quiz-question" data-q="4">
+          <div class="quiz-q-num">Pytanie 5 / 10</div>
+          <div class="quiz-q-text">Co robi pompa sodowo-potasowa?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">Wpuszcza 3 K⁺ i wypuszcza 2 Na⁺</button>
+            <button class="quiz-opt" onclick="answer(this, true)">Wypuszcza 3 Na⁺ i wpuszcza 2 K⁺, zużywając ATP</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Wypuszcza 2 Na⁺ i wpuszcza 3 K⁺</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Transportuje Ca²⁺ do komórki</button>
+          </div>
+          <div class="quiz-feedback" id="fb4"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next4" style="display:none">Następne →</button>
+            <span class="quiz-progress">5 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="quiz-question" data-q="5">
+          <div class="quiz-q-num">Pytanie 6 / 10</div>
+          <div class="quiz-q-text">Jakie komórki tworzą otoczkę mielinową w ośrodkowym układzie nerwowym?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">Komórki Schwanna</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Astrocyty</button>
+            <button class="quiz-opt" onclick="answer(this, true)">Oligodendrocyty</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Mikroglej</button>
+          </div>
+          <div class="quiz-feedback" id="fb5"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next5" style="display:none">Następne →</button>
+            <span class="quiz-progress">6 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="quiz-question" data-q="6">
+          <div class="quiz-q-num">Pytanie 7 / 10</div>
+          <div class="quiz-q-text">Czym jest homeostaza?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">Proces podziału komórkowego</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Synteza białek w komórce</button>
+            <button class="quiz-opt" onclick="answer(this, true)">Regulowanie przepływów substancji i energii dla stabilności środowiska wewnętrznego</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Przekazywanie informacji genetycznej</button>
+          </div>
+          <div class="quiz-feedback" id="fb6"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next6" style="display:none">Następne →</button>
+            <span class="quiz-progress">7 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="quiz-question" data-q="7">
+          <div class="quiz-q-num">Pytanie 8 / 10</div>
+          <div class="quiz-q-text">Choroba Parkinsona jest związana z upośledzeniem neurotransmisji którego neuroprzekaźnika?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">Serotoniny</button>
+            <button class="quiz-opt" onclick="answer(this, true)">Dopaminy</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Acetylocholiny</button>
+            <button class="quiz-opt" onclick="answer(this, false)">GABA</button>
+          </div>
+          <div class="quiz-feedback" id="fb7"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next7" style="display:none">Następne →</button>
+            <span class="quiz-progress">8 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="quiz-question" data-q="8">
+          <div class="quiz-q-num">Pytanie 9 / 10</div>
+          <div class="quiz-q-text">Ile elementów składa się na łuk odruchowy?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">3</button>
+            <button class="quiz-opt" onclick="answer(this, false)">4</button>
+            <button class="quiz-opt" onclick="answer(this, true)">5</button>
+            <button class="quiz-opt" onclick="answer(this, false)">6</button>
+          </div>
+          <div class="quiz-feedback" id="fb8"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="nextQ()" id="next8" style="display:none">Następne →</button>
+            <span class="quiz-progress">9 / 10</span>
+          </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="quiz-question" data-q="9">
+          <div class="quiz-q-num">Pytanie 10 / 10</div>
+          <div class="quiz-q-text">Jaki typ skurczu mięśnia zmienia zarówno napięcie, jak i długość mięśnia?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this, false)">Izotoniczny</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Izometryczny</button>
+            <button class="quiz-opt" onclick="answer(this, true)">Auksotoniczny</button>
+            <button class="quiz-opt" onclick="answer(this, false)">Tetaniczny</button>
+          </div>
+          <div class="quiz-feedback" id="fb9"></div>
+          <div class="quiz-nav">
+            <button class="btn btn-primary" onclick="finishQuiz()" id="next9" style="display:none">Zobacz wynik 🎉</button>
+            <span class="quiz-progress">10 / 10</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ===== SCROLL INDICATOR =====
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    document.getElementById('scrollIndicator').style.width = progress + '%';
+  });
+
+  // ===== ACTIVE NAV =====
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ===== QUIZ =====
+  let currentQ = 0;
+  let score = 0;
+  let answered = false;
+
+  const feedbacks = [
+    "Organizacja hierarchiczna ma 5 poziomów: chemiczny, komórkowy, tkankowy, narządowy i układowy.",
+    "Próg potencjału progowego to –55 mV. To punkt, w którym błona staje się przepuszczalna dla jonów Na⁺.",
+    "Zasada 'wszystko albo nic' — impuls powstaje w pełnej sile lub nie powstaje wcale. Siłę kodujemy częstotliwością.",
+    "GABA (kwas gamma-aminomasłowy) to główny NT hamujący. Jest go 200–1000× więcej niż acetylocholiny.",
+    "Pompa Na⁺/K⁺: 3 Na⁺ na zewnątrz, 2 K⁺ do środka. Zużywa ATP — 30% metabolizmu tkanek pobudliwych.",
+    "W OUN — oligodendrocyty. W obwodowym układzie nerwowym — komórki Schwanna.",
+    "Homeostaza to regulowanie przepływów substancji i energii. Definicja W. Cannona.",
+    "Choroba Parkinsona = degeneracja neuronów dopaminergicznych → upośledzenie ruchomości i motywacji.",
+    "Łuk odruchowy: receptor → włókno aferentne → ośrodek nerwowy → włókno eferentne → efektor.",
+    "Auksotoniczny — zmiana długości i napięcia mięśnia. Najczęstszy typ skurczu w codziennym ruchu."
+  ];
+
+  function answer(btn, correct) {
+    if (answered) return;
+    answered = true;
+
+    const opts = btn.closest('.quiz-options').querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.disabled = true);
+
+    if (correct) {
+      btn.classList.add('correct');
+      score++;
+    } else {
+      btn.classList.add('wrong');
+      opts.forEach(o => {
+        if (o.textContent !== btn.textContent && !o.classList.contains('wrong')) {
+          // highlight correct
+        }
+      });
+    }
+
+    const fb = document.getElementById('fb' + currentQ);
+    fb.textContent = (correct ? '✓ Poprawnie! ' : '✗ Niepoprawnie. ') + feedbacks[currentQ];
+    fb.style.color = correct ? 'var(--green)' : 'var(--rose)';
+
+    document.getElementById('next' + currentQ).style.display = 'inline-flex';
+  }
+
+  function nextQ() {
+    const current = document.querySelector('.quiz-question.active');
+    current.classList.remove('active');
+    currentQ++;
+    answered = false;
+    const next = document.querySelector('[data-q="' + currentQ + '"]');
+    if (next) next.classList.add('active');
+  }
+
+  function finishQuiz() {
+    document.querySelector('.quiz-question.active').classList.remove('active');
+    const scoreEl = document.getElementById('quizScore');
+    document.getElementById('scoreNum').textContent = score + '/10';
+    scoreEl.classList.add('show');
+    scoreEl.style.display = 'block';
+
+    let msg = '';
+    if (score >= 9) msg = '🏆 Wybitnie! Masz materiał opanowany!';
+    else if (score >= 7) msg = '✅ Świetnie! Parę rzeczy do powtórzenia.';
+    else if (score >= 5) msg = '📚 Nieźle, ale wróć do fiszek!';
+    else msg = '😅 Powtórka obowiązkowa — ale dasz radę!';
+
+    const sub = document.createElement('p');
+    sub.style.cssText = 'font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;';
+    sub.textContent = msg;
+    scoreEl.insertBefore(sub, scoreEl.querySelector('button'));
+  }
+
+  function restartQuiz() {
+    currentQ = 0;
+    score = 0;
+    answered = false;
+
+    document.getElementById('quizScore').classList.remove('show');
+    document.getElementById('quizScore').style.display = 'none';
+
+    const allQ = document.querySelectorAll('.quiz-question');
+    allQ.forEach((q, i) => {
+      q.classList.remove('active');
+      const opts = q.querySelectorAll('.quiz-opt');
+      opts.forEach(o => {
+        o.classList.remove('correct', 'wrong');
+        o.disabled = false;
+      });
+      const fb = document.getElementById('fb' + i);
+      if (fb) fb.textContent = '';
+      const next = document.getElementById('next' + i);
+      if (next) next.style.display = 'none';
+    });
+
+    allQ[0].classList.add('active');
+  }
+</script>
+
+</body>
+</html>
